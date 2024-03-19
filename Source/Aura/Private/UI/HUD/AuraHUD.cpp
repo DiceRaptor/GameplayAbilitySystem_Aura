@@ -5,6 +5,7 @@
 #include "UI/Widget/AuraUserWidget.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Overlay.h"
+#include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 
 UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetControllerParams& WCParams)
@@ -16,6 +17,17 @@ UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetCont
 		OverlayWidgetController->BindCallbacksToDependencies();
 	}
 	return OverlayWidgetController;
+}
+
+UAttributeMenuWidgetController* AAuraHUD::GetAttributeMenuWidgetController(const FWidgetControllerParams WCParams)
+{
+	if (AttributeMenuWidgetController == nullptr)
+	{
+		AttributeMenuWidgetController = NewObject<UAttributeMenuWidgetController>(this, AttributeMenuWidgetControllerClass);
+		AttributeMenuWidgetController->SetWidgetControllerParams(WCParams);
+		AttributeMenuWidgetController->BindCallbacksToDependencies();
+	}
+	return AttributeMenuWidgetController;
 }
 
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
@@ -32,5 +44,16 @@ void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySyst
 	OverlayWidget->SetWidgetController(WidgetController);
 	WidgetController->BroadcastInitialValues();
 	Widget->AddToViewport();
+
+
+	// checkf(AttributeMenuWidgetClass, TEXT("Attribute Menu Widget Class uninitialized, please fill out BP_AuraHUD"));
+	// checkf(AttributeMenuWidgetControllerClass, TEXT("Attribute Menu Widget Controller Class uninitialized, please fill out BP_AuraHUD"));
+	//
+	// UUserWidget* AMWidget = CreateWidget<UUserWidget>(GetWorld(), AttributeMenuWidgetClass);
+	// AttributeMenuWidget = Cast<UAuraUserWidget>(AMWidget);
+	// UAttributeMenuWidgetController* AMWidgetController = GetAttributeMenuWidgetController(WidgetControllerParams);
+	//
+	// AttributeMenuWidget->SetWidgetController(AMWidgetController);
+	// AMWidgetController->BroadcastInitialValues();
 }
 

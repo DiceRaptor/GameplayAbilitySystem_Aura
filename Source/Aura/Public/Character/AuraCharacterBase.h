@@ -58,6 +58,9 @@ protected:
 
 	void AddCharacterAbilities();
 
+	UPROPERTY(BlueprintReadOnly)
+	FVector FacingTarget;
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Abilities")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
